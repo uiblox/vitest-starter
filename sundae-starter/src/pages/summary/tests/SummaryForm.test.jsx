@@ -1,4 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/React";
+import userEvent from "@testing-library/user-event";
 import SummaryForm from "../SummaryForm";
 import { expect } from "vitest";
 
@@ -17,7 +18,8 @@ test("Page loads with form unchecked", () => {
   expect(formConsentButton).toBeDisabled();
 });
 
-test("Checking I agree to terms and conditions checkbox enables form button", () => {
+test("Checking I agree to terms and conditions checkbox enables form button", async () => {
+  const user = userEvent.setup();
   render(<SummaryForm />);
 
   const termsAndConditionsCheckbox = screen.getByRole("checkbox", {
@@ -28,6 +30,9 @@ test("Checking I agree to terms and conditions checkbox enables form button", ()
     name: /Confirm Order/i,
   });
 
-  fireEvent.click(termsAndConditionsCheckbox);
+  await user.click(termsAndConditionsCheckbox);
   expect(formConsentButton).toBeEnabled();
+
+  await user.click(termsAndConditionsCheckbox);
+  expect(formConsentButton).toBeDisabled();
 });
