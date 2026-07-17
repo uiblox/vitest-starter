@@ -36,3 +36,10 @@ test("Checking I agree to terms and conditions checkbox enables form button", as
   await user.click(termsAndConditionsCheckbox);
   expect(formConsentButton).toBeDisabled();
 });
+
+test("Popover is not visible when terms and conditions text is not hovered", () => {
+  const popover = screen.queryByText("No ice cream will actually be delivered");
+  expect(popover).not.toBeInTheDocument();
+});
+
+// test("Popover is visible when terms and conditions text is hovered", () => {});
