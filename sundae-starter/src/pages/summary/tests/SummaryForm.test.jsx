@@ -42,4 +42,17 @@ test("Popover is not visible when terms and conditions text is not hovered", () 
   expect(popover).not.toBeInTheDocument();
 });
 
-// test("Popover is visible when terms and conditions text is hovered", () => {});
+test("Popover is visible when terms and conditions text is hovered", async () => {
+  render(<SummaryForm />);
+  const user = userEvent.setup();
+  const termsAndConditions = screen.getByText(/Terms and Conditions/i);
+  await user.hover(termsAndConditions);
+
+  const popover = screen.getByText("No ice cream will actually be delivered");
+
+  expect(popover).toBeInTheDocument();
+
+  await user.unhover(termsAndConditions);
+
+  expect(popover).not.toBeInTheDocument();
+});
